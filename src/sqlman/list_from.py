@@ -7,7 +7,7 @@ import sys
 
 print (" Starting ") # 
 
-class parser():
+class fromparser():
 	def __init__(self,sqlfilename=''):
 		self.join_tables = {}
 
@@ -88,8 +88,22 @@ class parser():
 			print(table)
 
 if __name__ == '__main__':
-	logging.basicConfig(level=logging.INFO)
+	logging.basicConfig(level=logging.ERROR)
 	logging.info(" Starting parser") # 
 
-	p = parser('sample.sql')
-	p.show_tables()
+	if len(sys.argv) == 1 or sys.argv[1] == 'list_from.py': # no parameters
+		logging.info("No parameters passed in.") # 
+		print('usage: ')
+		print('py -m sqlman.list_from.py [sqlfilename]') 
+		print('')
+	else:
+		sqlfilename = sys.argv[1]
+		logging.info("1 parameter passed in.",sqlfilename) # 
+		print('Parsing ' + sqlfilename,'\n')
+		try:
+			p = fromparser(sqlfilename)
+			p.show_tables()
+		except Exception as e:
+			logging.error(str(e))
+
+		
